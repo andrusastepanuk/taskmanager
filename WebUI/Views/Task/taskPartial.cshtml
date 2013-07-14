@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Domain.Entities.InTask>
+@{
+    ViewBag.Title = "taskPartial";
+}
+@foreach (var chkl in Model)
+    {
+       @Html.CheckBox(chkl.ID.ToString())@chkl.CheckTask
+       using (Html.BeginForm("DeleteCheck", "Task"))
+       {
+                @Html.Hidden("CheckID", chkl.ID)
+                <input type="submit" value="Удалить"/>
+       }<br/>
+    }
+    @*разнести чеки, комменты и задание общее в разные контролы!*@

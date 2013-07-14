@@ -1,0 +1,19 @@
+﻿@model WebUI.Models.PersonEditModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)  
+    @Html.EditorFor(x => x.Person)
+foreach (var role in Model.Roles)
+{
+    <input @if (role.Value){@Html.Raw("checked");}  name="role" type="checkbox" value="@role.Key" />
+    @role.Name
+}
+    <input type="submit" value="Сохранить"/>
+}
+    @Html.ActionLink("Вернуться к списку пользователей", "List")

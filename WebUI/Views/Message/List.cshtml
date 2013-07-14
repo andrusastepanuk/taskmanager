@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Domain.Entities.Message>
+
+@{
+    ViewBag.Title = "Сообщения";
+}
+<div id="categories">
+@Html.RouteLink("Входящие", new {controller = "Message",action = "List", categories = "1"})
+@Html.RouteLink("Отправленные", new { controller = "Message", action = "List", categories = "2" })
+</div>
+<h2>List</h2>
+@Html.ActionLink("Новое сообщение", "Create")<br/>
+@foreach (var m in Model)
+{
+    <hr />
+    //для входящих
+    if (m.IsNew)
+    { 
+        <h3>!!!new message </h3>
+    }
+    
+     @m.From.SecondName<br/>
+     @m.To.SecondName<br/>
+     @m.Tittle<br/>
+     @m.Text<br/>
+     @m.When   
+using (Html.BeginForm("Delete", "Message"))
+{
+                @Html.Hidden("MessageID", m.ID)
+                <input type="submit" value="Delete"/>
+    }
+}

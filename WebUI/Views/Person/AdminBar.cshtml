@@ -1,0 +1,8 @@
+﻿@model Boolean
+@{
+    Layout = null;        
+}
+@if (Model)
+{
+    @Html.ActionLink("Пользователи", "List", "Admin");
+}

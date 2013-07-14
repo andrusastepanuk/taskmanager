@@ -1,0 +1,47 @@
+﻿@model WebUI.Models.TaskViewModel
+
+@{
+    ViewBag.Title = "Список заданий";
+}
+
+<h2>Список заданий</h2>
+@if (Model != null)
+{
+    <div id="categories">
+@foreach (var link in Model.Categorize)
+{
+    @Html.RouteLink(link, new
+{
+    controller = "Task",
+    action = "List",
+    taskId = link,
+    page = 1
+},
+    new { @class = link == ViewBag.SelectedCategory ? "selected" : null }
+    );
+}
+    </div>
+    if (Model.isManager)
+    {
+    <p>@Html.ActionLink("Создать новую задачу", "Create")</p>
+    }
+  foreach (var p in Model.Tasks)
+  {
+    <div class="item">
+    <h3>
+    @Html.RouteLink(p.Title, new
+{
+    controller = "Task",
+    action = "WatchTask",
+    taskId = p.TaskID
+})
+    </h3>
+    От: @p.From.FirstName<br/>
+    Кому: @p.To.SecondName<br />
+    Статус: @p.Status.InStatus<br />
+    Название: @p.Text<br />
+    <h5>Выдано: @p.Time</h5>
+    Сделано @{int count=0; foreach (var c in p.CheckList) { if (c.IsChecked) { count++; } } @count ;} из @p.CheckList.Count части
+    </div>
+}
+}

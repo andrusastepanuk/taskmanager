@@ -1,0 +1,15 @@
+﻿@model WebUI.Models.RegistrationModel
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Регистрация</h1>
+<p>Введите чтобы зарегистрироваться: </p>
+@using(Html.BeginForm()){
+    @Html.ValidationSummary()
+    @Html.EditorForModel()
+    <img alt="CAPTCHA Image" src="@Url.Action("Index","CAPTCHAImage")"/>
+    <p><input type="submit" value="Зарегистрироваться" /></p>
+}
+

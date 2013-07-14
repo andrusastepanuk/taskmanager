@@ -1,0 +1,18 @@
+﻿@model Domain.Entities.Person
+
+@{
+    ViewBag.Title = "Профиль";
+}
+
+<h2>Профиль</h2>
+<h3>Имя</h3>
+@Model.FirstName<br/>
+<h3>Фамилия</h3>
+@Model.SecondName<br/>
+<h3>Email</h3>
+@Model.Email<br/>
+<h3>Роли</h3>
+@foreach (var role in Model.Roles)
+{
+    @role.RoleLists.RoleName    <br/>
+}

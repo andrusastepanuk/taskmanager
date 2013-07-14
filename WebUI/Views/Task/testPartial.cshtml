@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Domain.Entities.Comment>
+@{
+    ViewBag.Title = "testPartial";
+}
+
+@foreach (var c in Model)
+    {
+        <hr/>
+         @c.Text<br/>
+         @c.From.FirstName<br/>
+         @c.When<br/>
+    }

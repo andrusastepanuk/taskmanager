@@ -1,0 +1,120 @@
+﻿@model WebUI.Models.TaskCommentModel
+
+@{
+    ViewBag.Title = "Задание";
+}
+<h2>Задание</h2>
+
+    Статус
+    @Model.Task.Status.InStatus<br />
+    Название
+    @Model.Task.Title<br/>
+    Текст задания
+    @Model.Task.Text<br />
+    @Model.Task.Time<br/>
+    <div id="resulttask" style="color: Black;">
+    @foreach (var chkl in Model.Task.CheckList)
+    {
+       @Html.CheckBox(chkl.ID.ToString(),chkl.IsChecked)@chkl.CheckTask
+       using (Html.BeginForm("DeleteCheck", "Task"))
+       {
+                @Html.Hidden("CheckID", chkl.ID)
+                <input type="submit" value="Удалить"/>
+       }
+        <br/>
+    }
+    
+    </div>
+    
+
+    @if (Model.IsWorker)
+    {
+        <script type="text/javascript">
+            $(function () {
+                $(':checkbox').change(function () {
+                    $.ajax({
+                        url: '@Url.Action("Checked")',
+                        type: 'POST',
+                        data: { isChecked: $(this).attr("name") }, //isChecked: //is(':checked')
+                        success: function (result) {
+
+                        }
+                    });
+                });
+            });
+</script>
+
+    }
+    else
+    {
+        //принять задание
+        using (Html.BeginForm("Done", "Task"))
+       {
+                @Html.Hidden("TaskID", Model.Task.TaskID)
+                <input type="submit" value="Принять задание"/>
+       }
+        
+        using (Ajax.BeginForm("Check", new
+        {
+            controller = "Task",
+            action = "Check",
+            taskId = Model.Task.TaskID
+        },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "resulttask",
+        OnBegin = "onBegin()",
+        OnComplete = "onComplate()"
+    }))
+        {
+    @Html.TextBoxFor(x => x.newTask)
+    <input type="submit" value="Добавить" />
+        }
+
+    }
+    <div id="result" style="color: Black;">
+    @foreach (var c in Model.Task.Comments)
+    {
+         <hr/>
+         @c.Text<br/>
+         @c.From.FirstName<br/>
+         @c.When<br/>
+    }
+    </div>
+
+
+<script type="text/javascript">
+    //Method that will be on begin of Ajax request, here we are displaying some text to user while update is    //going on
+    function onBegin() {
+        $('#loading').show();
+    }
+
+    //Method that will be called once ajax request was done and we will hide the loading text
+    function onComplate() {
+        $('#loading').hide();
+    }
+
+</script>
+
+<div id="loading" style="display:none; font-size:large; font-weight:bold">....Updating....</div>
+
+@using (Ajax.BeginForm("WatchTask", new
+{
+    controller = "Task",
+    action = "WatchTask",
+    taskId = Model.Task.TaskID
+},
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "result",
+        OnBegin = "onBegin()",
+        OnComplete = "onComplate()"
+    }))
+{
+    @Html.EditorFor(x => x.Comment)
+    <input type="submit" value="Добавить" />
+}
+@Html.ActionLink("Вернуться к списку задач", "List")
+   

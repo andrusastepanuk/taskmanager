@@ -1,0 +1,29 @@
+﻿@model WebUI.Models.PersonViewModel
+@{
+    Layout = null;        
+}
+<div id="cart">
+    @if (Model!=null)
+    {
+     foreach (var b in Model.Bar)   
+     {
+        @Html.ActionLink(b.Link,b.Action,b.Controller);
+     }
+            <span class="caption">
+            @Html.ActionLink(
+    Model.Person.FirstName+
+    Model.Person.SecondName
+    , "Profile", "Person")
+    </span>
+       @Html.ActionLink("Выход", "LogOut", "Account");
+    }
+    else
+    {
+        <span class="caption">
+        
+        @Html.ActionLink("Войдите", "LogOn", "Account")
+        или
+        @Html.ActionLink("Зарегистрируйтесь", "Registration", "Account")
+        </span>
+    }
+</div>

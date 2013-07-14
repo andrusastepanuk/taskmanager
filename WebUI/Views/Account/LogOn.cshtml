@@ -1,0 +1,14 @@
+﻿@model WebUI.Models.LogOnViewModel
+
+@{
+    ViewBag.Title = "Вход";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Вход</h1>
+<p>Введите чтобы войти: </p>
+@using(Html.BeginForm()){
+    @Html.ValidationSummary()
+    @Html.EditorForModel()
+    <img alt="CAPTCHA Image" src="@Url.Action("Index","CAPTCHAImage")"/>
+    <p><input type="submit" value="Войти" /></p>
+}

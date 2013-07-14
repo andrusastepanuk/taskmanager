@@ -1,0 +1,23 @@
+﻿@model WebUI.Models.CreateMessageModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Message", FormMethod.Post))
+{
+    @Html.ValidationSummary()    
+    <h3>Кому:</h3>
+    @Html.DropDownListFor(x => x.Message.ToID, Model.PersonLists)
+    <br/>
+    <h3>Название</h3>
+    @Html.EditorFor(x => x.Message.Tittle)
+    <br/>
+    <h3>Текст письма</h3>
+    @Html.EditorFor(x => x.Message.Text)
+    <br/>
+    <input type="submit" value="Отправить"/><br/>
+    @Html.ActionLink("Вернуться к списку сообщений", "List")
+}
